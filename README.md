@@ -1,4 +1,4 @@
-# Assignment B1: Making a Function in R 
+# Assignment B-1: Making a Function in R 
 by Brian Deng
 
 Hello and welcome to my repository!
