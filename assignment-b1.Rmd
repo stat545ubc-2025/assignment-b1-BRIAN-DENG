@@ -190,3 +190,16 @@ test_that("Function will error when there is nothing in the data frame", {
 })
 ```
 
+4. Test that a proper ggplot object is outputted
+```{r}
+test_that("ggplot structure is correct", {
+  plot <- plot_magenta_histogram(penguins, bill_length_mm, 50)
+  
+  # check that the plot is a ggplot object
+  expect_s3_class(plot, "ggplot")
+  
+  # check that the input variable is correctly mapped
+  expect_equal(rlang::as_name(plot$mapping$x), "bill_length_mm")
+ })
+```
+

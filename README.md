@@ -12,7 +12,7 @@ In this repository, you will find the following files/folders:
 - the source R markdown file that contains the code and text for Assignment B-1
 3. assignment-b1.md
 - the knitted markdown file that shows all the code, text, and plots for Assignment B-1
-4. assignment-b1_files
+4. assignment-b1_files/figure-markdown_strict
 - the folder that contains the plot images that are referenced in the knitted markdown file for Assignment B-1
 
 To explore my work, either open the markdown files in Github to view a coherent knitted file, or open the R markdown file and run it in RStudio. 

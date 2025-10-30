@@ -230,14 +230,14 @@ Before we start, I’m going to create data frames to run tests from
       expect_error(plot_magenta_histogram(test_data, diagnosis, 100))
     })
 
-    ## Test passed 🌈
+    ## Test passed 🥇
 
     # the radius_non_numerical column also contains non-numerical values
     test_that("Function will error because a non-numeric variable was inputted", {
       expect_error(plot_magenta_histogram(test_data, radius_non_numerical, 100))
     })
 
-    ## Test passed 🎉
+    ## Test passed 🎊
 
 1.  Test that the function will not error if there are NA’s present
 
@@ -248,7 +248,7 @@ Before we start, I’m going to create data frames to run tests from
       expect_no_error(plot_magenta_histogram(test_data, radius_NA, 100))
     })
 
-    ## Test passed 😸
+    ## Test passed 🥳
 
 1.  Test that the function errors if there is nothing in the data frame
 
@@ -266,4 +266,20 @@ Before we start, I’m going to create data frames to run tests from
       expect_error(plot_magenta_histogram(test_data_NA, NAs, 100))
     })
 
-    ## Test passed 🎉
+    ## Test passed 🥇
+
+1.  Test that a proper ggplot object is outputted
+
+<!-- -->
+
+    test_that("ggplot structure is correct", {
+      plot <- plot_magenta_histogram(penguins, bill_length_mm, 50)
+      
+      # check that the plot is a ggplot object
+      expect_s3_class(plot, "ggplot")
+      
+      # check that the input variable is correctly mapped
+      expect_equal(rlang::as_name(plot$mapping$x), "bill_length_mm")
+     })
+
+    ## Test passed 😀
