@@ -1,0 +1,192 @@
+---
+title: "Assignment B-1"
+output: md_document
+---
+
+STAT 545 Assignment B1
+=========
+Brian Deng
+60169810
+
+# Loading libraries & data
+```{r}
+library(tidyverse)
+library(roxygen2)
+library(testthat)
+
+library(datateachr)
+library(palmerpenguins)
+library(gapminder)
+```
+
+
+## Exercise 1 & 2: Making and Documenting the Function
+
+During my mini data analysis project, I coded quite a few histograms. 
+I want to create a function that takes in data inputs and outputs a histogram.
+This way, I don't need to type out the histogram code each time I want a histogram. 
+I like magenta so the function will plot a histogram with magenta coloured bars. 
+
+```{r}
+#' Plot a histogram with magenta bars of a numeric variable
+#' 
+#' This function plots a simple histogram using ggplot2 with magenta coloured bars. 
+#' The user inputs the data frame, column name, bin number.
+#'
+#' @param data The data frame that contains the variable of interest. Mandatory.
+#' @param variable The variable of interest, which must be numerical. Mandatory. 
+#' @param bins The number of bins for the histogram, which must be a positive integer. Mandatory. 
+#'
+#' @return A histogram plot with the variable of interest as the x axis. 
+#' @examples
+#' plot_magenta_histogram(cancer_sample, concavity_mean, 50)
+#' plot_magenta_histogram(cancer_sample, radius_mean, 100)
+#' plot_magenta_histogram(penguins, bill_length_mm, 50)
+#' plot_magenta_histogram(gapminder, lifeExp, 100)
+#'
+#' @export
+
+plot_magenta_histogram <- function(data, variable, bins) {
+
+  # check data frame input
+  if (!is.data.frame(data)) {
+    stop("The input data frame must be a data frame.")
+  }
+  
+  # dropping rows that contain NA's
+  data <- filter(data, !is.na({{ variable }}))
+  
+  # check numeric variable input after filtering
+  if (nrow(data) == 0) {
+    stop("The input variable does not contain data after filtering")
+  }
+
+  # check numeric variable input
+  if (!is.numeric(pull(data, {{ variable }}))) {
+    stop("The input variable must be a numeric variable.")
+  }
+  
+  # check bin input
+  if (!is.numeric(bins) | bins <= 0 ) {
+    stop("The input bins must be a positive integer")
+  }
+  
+  # dropping rows that contain NA's
+  data <- filter(data, !is.na({{ variable }}))
+  
+  # plotting histogram
+  ggplot(data, aes(x = {{ variable }})) +
+      geom_histogram(bins = bins, fill = "magenta", colour = "pink") +
+      theme_bw()
+}
+```
+
+
+# Exercise 3: Examples
+I'm now going to provide some examples using various datasets. 
+
+1. Plotting the distribution of average radius of tumour samples
+```{r}
+# the cancer_sample dataset has columns of numerical variables 
+plot_magenta_histogram(cancer_sample, radius_mean, 50)
+```
+
+2. Example of common errors with this code
+```{r, error = TRUE}
+# mistyping the variable name will simply return an error
+plot_magenta_histogram(cancer_sample, raduis_maen)
+
+# forgetting to specify the number of bins
+plot_magenta_histogram(cancer_sample, concavity_mean)
+
+# putting a negative integer as the number of bins
+plot_magenta_histogram(cancer_sample, concavity_mean, -1)
+
+# putting a non-integer as the number of bins 
+plot_magenta_histogram(cancer_sample, concavity_mean, "50")
+
+# inputting a non-data frame 
+plot_magenta_histogram(cancer_sample$diagnosis, concavity_mean)
+
+# inputting a non-numerical variable 
+plot_magenta_histogram(cancer_sample, diagnosis)
+```
+
+3. Examples of the code with another dataset
+```{r}
+# plotting the penguin bill length distribution in all penguins
+plot_magenta_histogram(gapminder, gdpPercap, 100)
+
+# plotting the life expectancy from countries around the world, coloured by what continent the country is in
+plot_magenta_histogram(gapminder, lifeExp, 100)
+```
+4. Example of variable that contains a lot of NA's
+```{r}
+# all columns some NA's in the column 
+glimpse(penguins)
+
+# in all the plots below, the NA's are dropped and do not show up in the histogram
+plot_magenta_histogram(penguins, bill_length_mm, 50)
+plot_magenta_histogram(penguins, bill_depth_mm, 50)
+plot_magenta_histogram(penguins, flipper_length_mm, 50)
+plot_magenta_histogram(penguins, body_mass_g, 50)
+```
+
+# Exercise 4: Testing the Function
+
+Before we start, I'm going to create data frames to run tests from
+```{r}
+# a data frame with multiple columns with various types of variables 
+test_data <- data.frame(
+  diagnosis = c("M", "M", "M", "B", "B", "B"), 
+  radius = c(100, 101, 95, 34, 56, 21),
+  radius_non_numerical = c("100", "101", "95", "34", "56", "21"),
+  radius_NA = c(100, 101, 95, 34, NA, 21)
+)
+
+# a data frame with no data
+test_data_zero <- data.frame(
+  zero = numeric(0)
+)
+
+# a data frame with NA data
+test_data_NA <- data.frame(
+  NAs = c(NA, NA, NA, NA)
+)
+```
+
+
+1. Test that the function will not take in a non-numeric variable
+```{r}
+# the diagnosis column contains non-numerical values
+test_that("Function will error because a non-numeric variable was inputted", {
+  expect_error(plot_magenta_histogram(test_data, diagnosis, 100))
+})
+
+# the radius_non_numerical column also contains non-numerical values
+test_that("Function will error because a non-numeric variable was inputted", {
+  expect_error(plot_magenta_histogram(test_data, radius_non_numerical, 100))
+})
+```
+
+2. Test that the function will not error if there are NA's present 
+```{r}
+# the NA values will be filtered out 
+test_that("Function will be able to handle NA values", {
+  expect_no_error(plot_magenta_histogram(test_data, radius_NA, 100))
+})
+```
+
+3. Test that the function errors if there is nothing in the data frame
+```{r}
+# the data frame has no data in it
+test_that("Function will error when there is nothing in the data frame", {
+  expect_error(plot_magenta_histogram(test_data_zero, zero, 100))
+})
+
+# since the data frame only has NA values, they will be filtered out and the data frame will no longer have data 
+test_that("Function will error when there is nothing in the data frame", {
+  expect_error(plot_magenta_histogram(test_data_NA, NAs, 100))
+})
+```
+
