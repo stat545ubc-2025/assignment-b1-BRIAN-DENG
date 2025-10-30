@@ -117,7 +117,7 @@ plot_magenta_histogram(cancer_sample, diagnosis)
 # plotting the penguin bill length distribution in all penguins
 plot_magenta_histogram(gapminder, gdpPercap, 100)
 
-# plotting the life expectancy from countries around the world, coloured by what continent the country is in
+# plotting the life expectancy from countries around the world
 plot_magenta_histogram(gapminder, lifeExp, 100)
 ```
 4. Example of variable that contains a lot of NA's
