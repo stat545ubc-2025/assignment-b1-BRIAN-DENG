@@ -107,18 +107,14 @@ histogram with magenta coloured bars.
 
 I’m now going to provide some examples using various datasets.
 
-1.  Plotting the distribution of average radius of tumour samples
-
-<!-- -->
+Plotting the distribution of average radius of tumour samples
 
     # the cancer_sample dataset has columns of numerical variables 
     plot_magenta_histogram(cancer_sample, radius_mean, 50)
 
 ![](assignment-b1_files/figure-markdown_strict/unnamed-chunk-3-1.png)
 
-1.  Example of common errors with this code
-
-<!-- -->
+Example of common errors with this code
 
     # mistyping the variable name will simply return an error
     plot_magenta_histogram(cancer_sample, raduis_maen)
@@ -153,9 +149,7 @@ I’m now going to provide some examples using various datasets.
 
     ## Error in plot_magenta_histogram(cancer_sample, diagnosis): The input variable must be a numeric variable.
 
-1.  Examples of the code with another dataset
-
-<!-- -->
+Examples of the code with another dataset
 
     # plotting the penguin bill length distribution in all penguins
     plot_magenta_histogram(gapminder, gdpPercap, 100)
@@ -167,9 +161,7 @@ I’m now going to provide some examples using various datasets.
 
 ![](assignment-b1_files/figure-markdown_strict/unnamed-chunk-5-2.png)
 
-1.  Example of variable that contains a lot of NA’s
-
-<!-- -->
+Example of variable that contains a lot of NA’s
 
     # all columns some NA's in the column 
     glimpse(penguins)
@@ -224,56 +216,48 @@ Before we start, I’m going to create data frames to run tests from
       NAs = c(NA, NA, NA, NA)
     )
 
-1.  Test that the function will not take in a non-numeric variable
-
-<!-- -->
+Test that the function will not take in a non-numeric variable
 
     # the diagnosis column contains non-numerical values
     test_that("Function will error because a non-numeric variable was inputted", {
       expect_error(plot_magenta_histogram(test_data, diagnosis, 100))
     })
 
-    ## Test passed 😀
+    ## Test passed 🎉
 
     # the radius_non_numerical column also contains non-numerical values
     test_that("Function will error because a non-numeric variable was inputted", {
       expect_error(plot_magenta_histogram(test_data, radius_non_numerical, 100))
     })
 
-    ## Test passed 🥇
+    ## Test passed 🥳
 
-1.  Test that the function will not error if there are NA’s present
-
-<!-- -->
+Test that the function will not error if there are NA’s present
 
     # the NA values will be filtered out 
     test_that("Function will be able to handle NA values", {
       expect_no_error(plot_magenta_histogram(test_data, radius_NA, 100))
     })
 
-    ## Test passed 🎊
+    ## Test passed 🎉
 
-1.  Test that the function errors if there is nothing in the data frame
-
-<!-- -->
+Test that the function errors if there is nothing in the data frame
 
     # the data frame has no data in it
     test_that("Function will error when there is nothing in the data frame", {
       expect_error(plot_magenta_histogram(test_data_zero, zero, 100))
     })
 
-    ## Test passed 🌈
+    ## Test passed 🎊
 
     # since the data frame only has NA values, they will be filtered out and the data frame will no longer have data 
     test_that("Function will error when there is nothing in the data frame", {
       expect_error(plot_magenta_histogram(test_data_NA, NAs, 100))
     })
 
-    ## Test passed 😸
+    ## Test passed 🥇
 
-1.  Test that a proper ggplot object is outputted
-
-<!-- -->
+Test that a proper ggplot object is outputted
 
     test_that("ggplot structure is correct", {
       plot <- plot_magenta_histogram(penguins, bill_length_mm, 50)
@@ -285,4 +269,4 @@ Before we start, I’m going to create data frames to run tests from
       expect_equal(rlang::as_name(plot$mapping$x), "bill_length_mm")
      })
 
-    ## Test passed 🥇
+    ## Test passed 😸
