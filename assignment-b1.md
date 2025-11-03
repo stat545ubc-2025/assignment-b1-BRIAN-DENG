@@ -2,7 +2,7 @@
 
 Brian Deng 60169810
 
-# Loading libraries & data
+## Loading libraries & data
 
     library(tidyverse)
 
@@ -43,7 +43,7 @@ Brian Deng 60169810
     library(palmerpenguins)
     library(gapminder)
 
-## Exercise 1 & 2: Making and Documenting the Function
+# Exercise 1 & 2: Making and Documenting the Function
 
 During my mini data analysis project, I coded quite a few histograms. I
 want to create a function that takes in data inputs and outputs a
@@ -165,8 +165,11 @@ I’m now going to provide some examples using various datasets.
     # plotting the life expectancy from countries around the world
     plot_magenta_histogram(gapminder, lifeExp, 100)
 
-![](assignment-b1_files/figure-markdown_strict/unnamed-chunk-5-2.png) 4.
-Example of variable that contains a lot of NA’s
+![](assignment-b1_files/figure-markdown_strict/unnamed-chunk-5-2.png)
+
+1.  Example of variable that contains a lot of NA’s
+
+<!-- -->
 
     # all columns some NA's in the column 
     glimpse(penguins)
@@ -230,14 +233,14 @@ Before we start, I’m going to create data frames to run tests from
       expect_error(plot_magenta_histogram(test_data, diagnosis, 100))
     })
 
-    ## Test passed 😸
+    ## Test passed 😀
 
     # the radius_non_numerical column also contains non-numerical values
     test_that("Function will error because a non-numeric variable was inputted", {
       expect_error(plot_magenta_histogram(test_data, radius_non_numerical, 100))
     })
 
-    ## Test passed 🎉
+    ## Test passed 🥇
 
 1.  Test that the function will not error if there are NA’s present
 
@@ -248,7 +251,7 @@ Before we start, I’m going to create data frames to run tests from
       expect_no_error(plot_magenta_histogram(test_data, radius_NA, 100))
     })
 
-    ## Test passed 🌈
+    ## Test passed 🎊
 
 1.  Test that the function errors if there is nothing in the data frame
 
@@ -266,7 +269,7 @@ Before we start, I’m going to create data frames to run tests from
       expect_error(plot_magenta_histogram(test_data_NA, NAs, 100))
     })
 
-    ## Test passed 🥇
+    ## Test passed 😸
 
 1.  Test that a proper ggplot object is outputted
 
@@ -282,4 +285,4 @@ Before we start, I’m going to create data frames to run tests from
       expect_equal(rlang::as_name(plot$mapping$x), "bill_length_mm")
      })
 
-    ## Test passed 🎊
+    ## Test passed 🥇

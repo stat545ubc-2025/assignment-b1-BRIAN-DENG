@@ -8,7 +8,7 @@ STAT 545 Assignment B1
 Brian Deng
 60169810
 
-# Loading libraries & data
+## Loading libraries & data
 ```{r}
 library(tidyverse)
 library(roxygen2)
@@ -20,7 +20,7 @@ library(gapminder)
 ```
 
 
-## Exercise 1 & 2: Making and Documenting the Function
+# Exercise 1 & 2: Making and Documenting the Function
 
 During my mini data analysis project, I coded quite a few histograms. 
 I want to create a function that takes in data inputs and outputs a histogram.
@@ -92,6 +92,7 @@ plot_magenta_histogram(cancer_sample, radius_mean, 50)
 ```
 
 2. Example of common errors with this code
+
 ```{r, error = TRUE}
 # mistyping the variable name will simply return an error
 plot_magenta_histogram(cancer_sample, raduis_maen)
@@ -113,6 +114,7 @@ plot_magenta_histogram(cancer_sample, diagnosis)
 ```
 
 3. Examples of the code with another dataset
+
 ```{r}
 # plotting the penguin bill length distribution in all penguins
 plot_magenta_histogram(gapminder, gdpPercap, 100)
@@ -120,7 +122,9 @@ plot_magenta_histogram(gapminder, gdpPercap, 100)
 # plotting the life expectancy from countries around the world
 plot_magenta_histogram(gapminder, lifeExp, 100)
 ```
+
 4. Example of variable that contains a lot of NA's
+
 ```{r}
 # all columns some NA's in the column 
 glimpse(penguins)
@@ -157,6 +161,7 @@ test_data_NA <- data.frame(
 
 
 1. Test that the function will not take in a non-numeric variable
+
 ```{r}
 # the diagnosis column contains non-numerical values
 test_that("Function will error because a non-numeric variable was inputted", {
@@ -170,6 +175,7 @@ test_that("Function will error because a non-numeric variable was inputted", {
 ```
 
 2. Test that the function will not error if there are NA's present 
+
 ```{r}
 # the NA values will be filtered out 
 test_that("Function will be able to handle NA values", {
@@ -178,6 +184,7 @@ test_that("Function will be able to handle NA values", {
 ```
 
 3. Test that the function errors if there is nothing in the data frame
+
 ```{r}
 # the data frame has no data in it
 test_that("Function will error when there is nothing in the data frame", {
@@ -191,6 +198,7 @@ test_that("Function will error when there is nothing in the data frame", {
 ```
 
 4. Test that a proper ggplot object is outputted
+
 ```{r}
 test_that("ggplot structure is correct", {
   plot <- plot_magenta_histogram(penguins, bill_length_mm, 50)
